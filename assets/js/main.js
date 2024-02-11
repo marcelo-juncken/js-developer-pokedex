@@ -1,14 +1,17 @@
-const pokemonList = document.getElementById('pokemonList')
-const loadMoreButton = document.getElementById('loadMoreButton')
+const pokemonList = document.getElementById('pokemonList');
+const loadMoreButton = document.getElementById('loadMoreButton');
 
 const maxRecords = 151
-const limit = 10
+const limit = 20
 let offset = 0;
 
 function convertPokemonToLi(pokemon) {
-    return `
-        <li class="pokemon ${pokemon.type}">
-            <span class="number">#${pokemon.number}</span>
+    const liElement = document.createElement("li");
+    liElement.classList.add("pokemon", pokemon.type);
+    liElement.addEventListener('click', () => loadPokemonDetails(pokemon));
+
+    liElement.innerHTML = `
+            <span class="number">#${pokemon.id}</span>
             <span class="name">${pokemon.name}</span>
 
             <div class="detail">
@@ -19,29 +22,51 @@ function convertPokemonToLi(pokemon) {
                 <img src="${pokemon.photo}"
                      alt="${pokemon.name}">
             </div>
-        </li>
-    `
+    `;
+
+    return liElement;
 }
 
-function loadPokemonItens(offset, limit) {
-    pokeApi.getPokemons(offset, limit).then((pokemons = []) => {
-        const newHtml = pokemons.map(convertPokemonToLi).join('')
-        pokemonList.innerHTML += newHtml
+async function loadPokemonItens(offset, limit) {
+    const pokemons = await fetchPokemons(offset, limit);
+    pokemons.forEach(pokemon => {
+        const liElement = convertPokemonToLi(pokemon);
+        pokemonList.appendChild(liElement);
     })
 }
 
-loadPokemonItens(offset, limit)
+loadPokemonItens(offset, limit).then()
 
-loadMoreButton.addEventListener('click', () => {
+loadMoreButton.addEventListener('click', async () => {
     offset += limit
     const qtdRecordsWithNexPage = offset + limit
 
     if (qtdRecordsWithNexPage >= maxRecords) {
         const newLimit = maxRecords - offset
-        loadPokemonItens(offset, newLimit)
+        await loadPokemonItens(offset, newLimit)
 
         loadMoreButton.parentElement.removeChild(loadMoreButton)
     } else {
-        loadPokemonItens(offset, limit)
+        await loadPokemonItens(offset, limit)
+    }
+})
+
+
+window.addEventListener('scroll', async () => {
+    const scrolledHeight = window.scrollY + window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    if (scrolledHeight >= documentHeight){
+        offset += limit
+        const qtdRecordsWithNexPage = offset + limit
+
+        if (qtdRecordsWithNexPage >= maxRecords) {
+            const newLimit = maxRecords - offset
+
+            await loadPokemonItens(offset, newLimit)
+            loadMoreButton.parentElement.removeChild(loadMoreButton)
+        } else {
+            await loadPokemonItens(offset, limit)
+        }
     }
 })

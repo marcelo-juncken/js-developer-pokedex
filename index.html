@@ -9,8 +9,8 @@
 
     <!-- Normalize CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+          integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <!-- Font Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,27 +20,113 @@
     <!-- Nosso CSS -->
     <link rel="stylesheet" href="/assets/css/global.css">
     <link rel="stylesheet" href="/assets/css/pokedex.css">
+    <link rel="stylesheet" href="/assets/css/pokemon-details.css">
 </head>
 
 <body>
-    <section class="content">
-        <h1>Pokedex</h1>
+<section class="content">
+    <h1>Pokedex</h1>
 
-        <ol id="pokemonList" class="pokemons">
-            <!-- ..... Pokemons here ..... -->
-        </ol>
+    <div id="modal" style="display: none">
+        <div id="modalContent">
+            <div id="pokemonDetails">
+                <div id="topCard">
+                    <div class="title-container">
+                        <span id="topCardName"></span>
+                        <span id="topCardNumber"></span>
+                    </div>
+                    <div id="topCardInfos">
+                        <div id="topCardTypes"></div>
+                        <div id="topCardGenus"></div>
+                    </div>
 
-        <div class="pagination">
-            <button id="loadMoreButton" type="button">
-                Load More
-            </button>
+                </div>
+                <div id="bottomCard">
+                    <div data-option="About" class="options-container">
+                        <span class="about">About</span>
+                        <span class="base-stats">Base Stats</span>
+                        <span class="evolution">Evolution</span>
+                        <span class="moves">Moves</span>
+                    </div>
+
+                    <div class="line-selector-container">
+                        <div data-line-selected="About"></div>
+                    </div>
+                    <div data-contents-container="about">
+                        <div class="content-container about">
+                            <span id="aboutText"></span>
+                            <div id="aboutInfo">
+                                <div class="column-info height">
+                                    <span class="column-info-title height">Height</span>
+                                    <span id="heightValue"></span>
+                                </div>
+                                <div class="column-info weight">
+                                    <span class="column-info-title weight">Weight</span>
+                                    <span id="weightValue"></span>
+                                </div>
+                            </div>
+
+                            <div class="breeding-info-container">
+                                <span class="breeding-title">Breeding</span>
+                                <div class="breeding-info">
+                                    <div class="title-container">
+                                        <span class="title">Gender</span>
+                                        <span class="title">Egg Groups</span>
+                                        <span class="title">Growth Rate</span>
+                                    </div>
+                                    <div class="first-info-container">
+                                        <span id="genderMaleValue" class="gender male"></span>
+                                        <span id="eggGroupFirstvalue"></span>
+                                        <span id="growthRate">Grass</span>
+                                    </div>
+                                    <div class="second-info-container">
+                                        <span id="genderFemaleValue" class="gender female"></span>
+                                        <span id="eggGroupSecondValue"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-container stats">
+                            <div class="column title">
+
+                            </div>
+                            <div class="column value">
+
+                            </div>
+                            <div class="column bar-value">
+
+                            </div>
+                        </div>
+                        <div class="content-container evolution"></div>
+                        <div class="content-container moves"></div>
+                    </div>
+
+
+                </div>
+                <img id="pokemonDetailsImage" src="#" alt="pokemon picture">
+            </div>
+            <button id="closeBtn"><span>&times;</span></button>
+
         </div>
-    </section>
+    </div>
 
-    <!-- Nosso JS -->
-    <script src="/assets/js/pokemon-model.js"></script>
-    <script src="/assets/js/poke-api.js"></script>
-    <script src="/assets/js/main.js"></script>
+
+    <ol id="pokemonList" class="pokemons">
+        <!-- ..... Pokemons here ..... -->
+    </ol>
+
+    <div class="pagination">
+        <button id="loadMoreButton" type="button">
+            Load More
+        </button>
+    </div>
+</section>
+
+<!-- Nosso JS -->
+<script src="/assets/js/pokemon-model.js"></script>
+<script src="/assets/services/poke-api.js"></script>
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/modal.js"></script>
 </body>
 
 </html>
